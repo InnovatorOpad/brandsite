@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بوست مدار | تصميم احترافي بلا حدود</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: linear-gradient(145deg, #f6f9fc 0%, #e9f1f8 100%);
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+      color: #1e293b;
+    }
+    .container { max-width: 1400px; margin: 0 auto; }
+    h1 {
+      font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #0f2b57, #2b5a9c);
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent; display: flex; align-items: center; gap: 12px;
+    }
+    h1 i { background: #ffffffd9; padding: 12px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,20,50,0.08); color: #1e4a8b; }
+    .subhead { font-size: 1.2rem; color: #475569; margin-bottom: 2.5rem; font-weight: 500; border-right: 5px solid #3b82f6; padding-right: 1.2rem; }
+    .app-grid { display: grid; grid-template-columns: 360px 1fr; gap: 28px; }
+    .control-panel {
+      background: rgba(255,255,255,0.8); backdrop-filter: blur(12px);
+      border-radius: 36px; padding: 28px 22px;
+      box-shadow: 0 25px 40px -12px rgba(0,35,70,0.15);
+      border: 1px solid rgba(255,255,255,0.5); height: fit-content;
+    }
+    .panel-section { margin-bottom: 32px; }
+    .panel-section h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 18px; color: #0b2b4a; display: flex; align-items: center; gap: 8px; border-bottom: 2px dashed #bdd3eb; padding-bottom: 10px; }
+    .logo-upload-area {
+      background: #f8fafc; border: 2px dashed #94a3b8; border-radius: 28px;
+      padding: 20px 10px; text-align: center; transition: all 0.2s; cursor: pointer;
+    }
+    .logo-upload-area:hover { border-color: #2563eb; background: #f0f7ff; }
+    .logo-preview {
+      width: 120px; height: 120px; margin: 0 auto 15px; border-radius: 24px;
+      background: #ffffff; box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid #e2e8f0; overflow: hidden;
+    }
+    .logo-preview img { max-width: 90%; max-height: 90%; object-fit: contain; }
+    .upload-btn {
+      background: #ffffff; border: 1px solid #cbd5e1; padding: 10px 18px;
+      border-radius: 60px; font-weight: 600; color: #1e4a8b; font-size: 0.95rem;
+      display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;
+      cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.02);
+    }
+    .upload-btn:hover { background: #2563eb; color: white; border-color: #2563eb; }
+    #logoFileInput { display: none; }
+    .text-input-group { margin-top: 20px; }
+    .text-input-group label { font-weight: 600; margin-bottom: 8px; display: block; color: #334155; }
+    .text-input-group input, .text-input-group textarea {
+      width: 100%; padding: 16px 18px; font-size: 1.1rem; border: 2px solid #e2e8f0;
+      border-radius: 24px; background: white; font-family: 'Tajawal', sans-serif;
+      transition: 0.2s; outline: none; font-weight: 500; resize: vertical;
+    }
+    .text-input-group textarea { min-height: 150px; line-height: 1.6; }
+    .text-input-group input:focus, .text-input-group textarea:focus {
+      border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59,130,246,0.15);
+    }
+    .template-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 10px; }
+    .template-card {
+      background: white; border-radius: 24px; padding: 16px 18px;
+      display: flex; align-items: center; gap: 16px; border: 2px solid transparent;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.03); cursor: pointer; transition: all 0.2s;
+    }
+    .template-card:hover { background: #f0f9ff; border-color: #bdd9ff; }
+    .template-card.active { border-color: #2563eb; background: #eef4ff; box-shadow: 0 12px 18px -8px rgba(37,99,235,0.2); }
+    .template-icon { width: 60px; height: 60px; background: #dbeafe; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: #1e4a8b; }
+    .template-info h4 { font-weight: 800; font-size: 1.2rem; }
+    .template-info p { color: #64748b; font-size: 0.9rem; }
+    .preview-area {
+      background: rgba(255,255,255,0.75); backdrop-filter: blur(12px);
+      border-radius: 42px; padding: 28px; box-shadow: 0 30px 45px -15px rgba(0,45,80,0.12);
+      border: 1px solid rgba(255,255,255,0.7); display: flex; flex-direction: column;
+    }
+    .preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
+    .preview-header h2 { font-weight: 700; color: #0c2b4b; font-size: 1.8rem; }
+    .download-btn {
+      background: #0f2b57; color: white; border: none; padding: 14px 28px;
+      border-radius: 60px; font-weight: 700; font-size: 1.1rem; display: flex;
+      align-items: center; gap: 12px; box-shadow: 0 12px 18px -6px #0f2b5740;
+      transition: 0.2s; cursor: pointer; border: 1px solid #ffffff30;
+    }
+    .download-btn:hover { background: #1e4a8b; transform: scale(1.02); }
+    .canvas-wrapper {
+      background: #f1f5f9; border-radius: 36px; padding: 20px;
+      display: flex; justify-content: center; align-items: center;
+      box-shadow: inset 0 5px 8px rgba(0,0,0,0.02), 0 10px 20px rgba(0,0,0,0.03);
+      flex: 1; min-height: 500px;
+    }
+    canvas { max-width: 100%; height: auto; border-radius: 28px; box-shadow: 0 25px 35px -12px rgba(0,0,0,0.2); background: white; display: block; border: 1px solid #e2e8f0; }
+    .footer-note { margin-top: 20px; color: #64748b; text-align: center; font-size: 0.9rem; }
+    @media (max-width: 900px) { .app-grid { grid-template-columns: 1fr; } body { padding: 1rem; } h1 { font-size: 2rem; } }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1><i class="fas fa-paint-brush"></i> بوست مدار الاحترافي</h1>
+  <div class="subhead">ارفع شعار مدار · اكتب عنوانًا وفقرة طويلة · اختر قالب البوست</div>
+  <div class="app-grid">
+    <div class="control-panel">
+      <div class="panel-section">
+        <h3><i class="fas fa-cloud-upload-alt" style="color:#2563eb;"></i> 1. شعار مدار</h3>
+        <div class="logo-upload-area" id="logoUploadArea">
+          <div class="logo-preview" id="logoPreviewContainer">
+            <img id="logoPreviewImg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E" alt="شعار افتراضي">
+          </div>
+          <label class="upload-btn" for="logoFileInput"><i class="fas fa-image"></i> اختر شعارك</label>
+          <input type="file" id="logoFileInput" accept="image/png, image/svg+xml, image/jpeg, image/webp">
+        </div>
+      </div>
+      <div class="panel-section">
+        <h3><i class="fas fa-pen-fancy" style="color:#2563eb;"></i> 2. العنوان الرئيسي</h3>
+        <div class="text-input-group">
+          <input type="text" id="titleInput" placeholder="مثال: المباشر تغيّر سلوك النماذج" value="المباشر تغيّر سلوك النماذج — ودراسة ميكانيكية تكشف كيف!" maxlength="100">
+        </div>
+      </div>
+      <div class="panel-section">
+        <h3><i class="fas fa-align-left" style="color:#2563eb;"></i> 3. الفقرة النصية (غير محدودة)</h3>
+        <div class="text-input-group">
+          <textarea id="bodyTextInput" placeholder="اكتب فقرتك الطويلة هنا... يمكنك استخدام سطور متعددة.">دراسة نشرت هذا الشهر تدرس كيف تشكّل العواطف سلوك نماذج اللغة والوكالة الذكية — بطريقة ميكانيكية وليس سطحية. ليس مجرد "النموذج يبدو متحمساً"، بل كيف تتغير القرارات الداخلية للنموذج عندما يُوصف بعواطف معينة.</textarea>
+        </div>
+      </div>
+      <div class="panel-section">
+        <h3><i class="fas fa-layer-group" style="color:#2563eb;"></i> 4. اختر قالبًا</h3>
+        <div class="template-grid" id="templateList"></div>
+      </div>
+    </div>
+    <div class="preview-area">
+      <div class="preview-header">
+        <h2><i class="fas fa-eye" style="margin-left:8px;"></i> معاينة البوست</h2>
+        <button class="download-btn" id="downloadBtn"><i class="fas fa-download"></i> تنزيل PNG</button>
+      </div>
+      <div class="canvas-wrapper">
+        <canvas id="outputCanvas" width="800" height="1000"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  (function(){
+    const canvas = document.getElementById('outputCanvas');
+    const ctx = canvas.getContext('2d');
+    const logoInput = document.getElementById('logoFileInput');
+    const logoPreviewImg = document.getElementById('logoPreviewImg');
+    const titleInput = document.getElementById('titleInput');
+    const bodyTextInput = document.getElementById('bodyTextInput');
+    const templateListEl = document.getElementById('templateList');
+    const downloadBtn = document.getElementById('downloadBtn');
+    
+    let currentLogoImage = null;
+    let currentTemplateId = 'postTemplate'; // القالب الجديد هو الافتراضي
+    
+    function loadDefaultLogo() {
+      const img = new Image();
+      img.crossOrigin = 'Anonymous';
+      img.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 24 24' fill='%232563eb'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E";
+      img.onload = () => { currentLogoImage = img; logoPreviewImg.src = img.src; renderCanvas(); };
+    }
+    loadDefaultLogo();
+    
+    const templates = [
+      {
+        id: 'postTemplate',
+        name: 'بوست مدار',
+        description: 'شعار في الأعلى · عنوان · فقرة · @madar_ai',
+        icon: 'fa-newspaper',
+        render: (ctx, w, h, logoImg, title, body) => {
+          // خلفية أنيقة
+          const grad = ctx.createLinearGradient(0, 0, 0, h);
+          grad.addColorStop(0, '#0b1120');
+          grad.addColorStop(1, '#1e293b');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, w, h);
+          
+          // شريط علوي ملون
+          ctx.fillStyle = '#2563eb';
+          ctx.fillRect(0, 0, w, 8);
+          
+          // شعار مدار (أعلى المنتصف)
+          if (logoImg) {
+            const logoSize = 100;
+            ctx.drawImage(logoImg, w/2 - logoSize/2, 50, logoSize, logoSize);
+          }
+          
+          // اسم "مدار" تحت الشعار
+          ctx.font = 'bold 36px "Tajawal", sans-serif';
+          ctx.fillStyle = '#f8fafc';
+          ctx.textAlign = 'center';
+          ctx.fillText('مدار', w/2, 180);
+          
+          // العنوان الرئيسي
+          ctx.font = 'bold 30px "Tajawal", sans-serif';
+          ctx.fillStyle = '#f1f5f9';
+          ctx.textAlign = 'center';
+          const titleLines = wrapText(ctx, title, w - 80);
+          let y = 260;
+          titleLines.forEach(line => {
+            ctx.fillText(line, w/2, y);
+            y += 45;
+          });
+          
+          // فاصل
+          ctx.beginPath();
+          ctx.strokeStyle = '#3b82f6';
+          ctx.lineWidth = 3;
+          ctx.moveTo(w/2-60, y+10);
+          ctx.lineTo(w/2+60, y+10);
+          ctx.stroke();
+          y += 40;
+          
+          // الفقرة النصية الطويلة
+          ctx.font = '22px "Tajawal", sans-serif';
+          ctx.fillStyle = '#cbd5e1';
+          ctx.textAlign = 'right';
+          const bodyLines = wrapText(ctx, body, w - 100);
+          bodyLines.forEach(line => {
+            ctx.fillText(line, w - 50, y);
+            y += 38;
+          });
+          
+          // تذييل @madar_ai
+          ctx.font = 'bold 24px "Tajawal", sans-serif';
+          ctx.fillStyle = '#94a3b8';
+          ctx.textAlign = 'left';
+          ctx.fillText('@madar_ai', 50, h - 50);
+        }
+      },
+      {
+        id: 'classic',
+        name: 'قالب كلاسيكي',
+        description: 'شعار + عنوان فقط (قصير)',
+        icon: 'fa-crown',
+        render: (ctx, w, h, logoImg, title) => {
+          ctx.fillStyle = '#f8fafc'; ctx.fillRect(0,0,w,h);
+          if(logoImg) ctx.drawImage(logoImg, w/2-80, 100, 160, 160);
+          ctx.font = 'bold 48px "Tajawal"'; ctx.fillStyle = '#0f172a'; ctx.textAlign='center';
+          ctx.fillText(title, w/2, 350);
+        }
+      }
+    ];
+    
+    function wrapText(ctx, text, maxWidth) {
+      const words = text.split(' ');
+      const lines = [];
+      let currentLine = words[0];
+      for (let i = 1; i < words.length; i++) {
+        const word = words[i];
+        const width = ctx.measureText(currentLine + " " + word).width;
+        if (width < maxWidth) currentLine += " " + word;
+        else { lines.push(currentLine); currentLine = word; }
+      }
+      lines.push(currentLine);
+      return lines;
+    }
+    
+    function renderTemplateCards() {
+      templateListEl.innerHTML = '';
+      templates.forEach(tpl => {
+        const card = document.createElement('div');
+        card.className = `template-card ${tpl.id === currentTemplateId ? 'active' : ''}`;
+        card.dataset.id = tpl.id;
+        card.innerHTML = `<div class="template-icon"><i class="fas ${tpl.icon}"></i></div><div class="template-info"><h4>${tpl.name}</h4><p>${tpl.description}</p></div>`;
+        card.addEventListener('click', () => {
+          document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
+          card.classList.add('active');
+          currentTemplateId = tpl.id;
+          renderCanvas();
+        });
+        templateListEl.appendChild(card);
+      });
+    }
+    renderTemplateCards();
+    
+    function renderCanvas() {
+      const w = 800, h = 1000;
+      canvas.width = w; canvas.height = h;
+      const title = titleInput.value.trim() || 'عنوان البوست';
+      const body = bodyTextInput.value.trim() || 'نص الفقرة هنا.';
+      const template = templates.find(t => t.id === currentTemplateId) || templates[0];
+      ctx.clearRect(0,0,w,h);
+      template.render(ctx, w, h, currentLogoImage, title, body);
+    }
+    
+    titleInput.addEventListener('input', renderCanvas);
+    bodyTextInput.addEventListener('input', renderCanvas);
+    logoInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = () => { currentLogoImage = img; logoPreviewImg.src = ev.target.result; renderCanvas(); };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+    document.getElementById('logoUploadArea').addEventListener('click', (e) => { if(!e.target.closest('.upload-btn')) logoInput.click(); });
+    downloadBtn.addEventListener('click', () => { renderCanvas(); const a = document.createElement('a'); a.download = 'madar_post.png'; a.href = canvas.toDataURL('image/png'); a.click(); });
+    setTimeout(renderCanvas, 80);
+  })();
+</script>
+</body>
+</html>
